@@ -25,6 +25,10 @@ index-build: bundle-build opm-download
 	$(info Using OPM Tool: $(OPM))
 	$(OPM) index add --bundles $(BUNDLE_IMG) --tag $(INDEX_IMG)
 
+.PHONY: test
+test:
+	operator-sdk bundle validate ./bundle
+
 .PHONY: push ## Push the image to quay
 push:
 	$(CONTAINER_TOOL) push $(BUNDLE_IMG)
