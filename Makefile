@@ -11,6 +11,7 @@ all: index-build
 bundle-build:
 	@echo Building bundle image
 	$(CONTAINER_TOOL) build -f bundle.Dockerfile -t $(BUNDLE_IMG) .
+	$(CONTAINER_TOOL) push $(BUNDLE_IMG)
 
 .PHONY: opm-download
 opm-download:
@@ -24,13 +25,8 @@ index-build: bundle-build opm-download
 	@echo Building index image
 	$(info Using OPM Tool: $(OPM))
 	$(OPM) index add --bundles $(BUNDLE_IMG) --tag $(INDEX_IMG)
+	$(CONTAINER_TOOL) push $(INDEX_IMG)
 
 .PHONY: test
 test:
 	operator-sdk bundle validate ./bundle
-
-.PHONY: push ## Push the image to quay
-push:
-	$(CONTAINER_TOOL) push $(BUNDLE_IMG)
-	$(CONTAINER_TOOL) push $(INDEX_IMG)
-
