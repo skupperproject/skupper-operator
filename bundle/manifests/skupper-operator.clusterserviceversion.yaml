@@ -14,26 +14,19 @@ spec:
     Skupper site operator.
 
 
-    To get started with it you can simply define or update the skupper-site configmap and the
-    skupper operator will take care of defining your site accordingly.
+    The Skupper site controller operator helps you managing your site by watching for a
+    ConfigMap named skupper-site. To get started with it you can simply define this ConfigMap
+    in the desired namespace and the skupper operator will take care of defining your site accordingly.
 
     See an example below:
 
 
           apiVersion: v1
           kind: ConfigMap
-          data:
-            console: "true"
-            console-authentication: internal
-            console-password: "admin"
-            console-user: "admin"
-            name: skupper-site
-            router-console: "true"
-            router-mode: interior
-            service-controller: "true"
-            service-sync: "true"
           metadata:
             name: skupper-site
+          data:
+            router-mode: interior
 
   displayName: Skupper
   icon:
@@ -261,7 +254,7 @@ spec:
               containers:
               - command:
                 - /app/site-controller
-                image: quay.io/skupper/site-controller@sha256:76b9354adec626b01ffb0faae4a217cebd616661fd90c4b54ba4415f53392fb8
+                image: quay.io/skupper/site-controller@sha256:6618deb1c2cd45965f4f4f9cb46bdc4e37340188acf36e619f952df3255c0571
                 name: manager
                 securityContext:
                   allowPrivilegeEscalation: false
