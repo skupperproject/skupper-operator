@@ -94,6 +94,9 @@ For more information, visit the official [Skupper website](https://skupper.io)
 ## Uninstalling from Minikube
 
 ```
+# Delete the skupper-site ConfigMap
+kubectl delete -f examples/skupper-site-interior.yaml
+
 # Delete the CSV
 kubectl delete csv skupper-operator.v0.0.1
 
@@ -110,6 +113,9 @@ kubectl delete -f examples/k8s/00-cs.yaml
 ## Uninstalling from OpenShift
 
 ```
+# Delete the skupper-site ConfigMap
+kubectl delete -f examples/skupper-site-interior.yaml
+
 # Delete the CSV
 kubectl delete csv skupper-operator.v0.0.1
 
