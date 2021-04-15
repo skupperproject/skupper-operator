@@ -148,96 +148,6 @@ spec:
           - create
           - delete
         serviceAccountName: skupper-site-controller
-      - rules:
-        - apiGroups:
-          - apps
-          resources:
-          - deployments
-          - statefulsets
-          - daemonsets
-          verbs:
-          - get
-          - list
-          - watch
-          - create
-          - update
-          - patch
-          - delete
-        - apiGroups:
-          - route.openshift.io
-          resources:
-          - routes
-          verbs:
-          - get
-          - list
-          - watch
-          - create
-          - update
-          - patch
-          - delete
-        - apiGroups:
-          - ""
-          resources:
-          - pods
-          - pods/exec
-          - secrets
-          - configmaps
-          - services
-          - serviceaccounts
-          verbs:
-          - get
-          - list
-          - watch
-          - create
-          - update
-          - patch
-          - delete
-        serviceAccountName: skupper-service-controller
-      - rules:
-        - apiGroups:
-          - apps
-          resources:
-          - deployments
-          - statefulsets
-          - daemonsets
-          verbs:
-          - get
-          - list
-          - watch
-          - create
-          - update
-          - patch
-          - delete
-        - apiGroups:
-          - route.openshift.io
-          resources:
-          - routes
-          verbs:
-          - get
-          - list
-          - watch
-          - create
-          - update
-          - patch
-          - delete
-        - apiGroups:
-          - ""
-          resources:
-          - pods
-          - pods/exec
-          - secrets
-          - configmaps
-          - services
-          - serviceaccounts
-          verbs:
-          - get
-          - list
-          - watch
-          - create
-          - update
-          - patch
-          - delete
-        serviceAccountName: skupper-router
       deployments:
       - name: skupper-site-controller
         spec:
@@ -286,8 +196,8 @@ spec:
   - name: Skupper Operator
     url: https://github.com/skupperproject/skupper-operator
   maintainers:
-  - email: customerservice@redhat.com
-    name: Red Hat
+  - email: skupper@googlegroups.com
+    name: Skupper Community
   maturity: alpha
   provider:
     name: Skupper Project
