@@ -97,11 +97,11 @@ For more information, visit the official [Skupper website](https://skupper.io)
 # Delete the skupper-site ConfigMap
 kubectl delete -f examples/skupper-site-interior.yaml
 
-# Delete the CSV
-kubectl delete csv skupper-operator.v0.0.1
-
 # Deleting the Subscription
 kubectl delete -f examples/k8s/20-sub.yaml
+
+# Delete the CSV
+kubectl delete csv skupper-operator.v0.0.1
 
 # Deleting the OperatorGroup
 kubectl delete -f examples/k8s/10-og.yaml
@@ -116,11 +116,11 @@ kubectl delete -f examples/k8s/00-cs.yaml
 # Delete the skupper-site ConfigMap
 kubectl delete -f examples/skupper-site-interior.yaml
 
-# Delete the CSV
-kubectl delete csv skupper-operator.v0.0.1
-
 # Deleting the Subscription
 kubectl delete -f examples/ocp/20-sub.yaml
+
+# Delete the CSV
+kubectl delete csv skupper-operator.v0.0.1
 
 # Deleting the OperatorGroup
 kubectl delete -f examples/ocp/10-og.yaml
