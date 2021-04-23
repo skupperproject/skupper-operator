@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: skupper-site
+  namespace: default
+data:
+  router-mode: interior
+  console-password: "admin"
+  console-user: "admin"
