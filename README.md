@@ -65,9 +65,11 @@ NAME                                     READY   STATUS    RESTARTS   AGE
 skupper-site-controller-d7b57964-gxms6   1/1     Running   0          39m
 ```
 
-At this point, the Skupper Operator is running and it will manage your
+Now the Skupper Operator is running and you can create a site. 
+At this point with most Operators, you would create a CR, however 
+the Skupper Operator manages your
 Skupper site by watching a `ConfigMap` named exclusively `skupper-site`
-at the namespace where it is running (in this case the `default` namespace).
+in the namespace where it is running (in this case the `default` namespace).
 
 # Creating a new skupper site
 
