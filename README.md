@@ -6,6 +6,11 @@ to kick things off based on an existing skupper-site ConfigMap.
 
 # Installing the skupper-operator
 
+
+The instructions below demonstrates how to install the skupper-operator
+and run it inside the `default` namespace. If you want to install it in
+a different namespace, edit the referenced yaml before applying.
+
 If you want to test your catalog against a local minikube cluster,
 you'll need to install OLM first. For more info, check this out:
 https://olm.operatorframework.io/docs/getting-started/
@@ -13,8 +18,6 @@ https://olm.operatorframework.io/docs/getting-started/
 In an OpenShift cluster, OLM is already installed. So you just need to 
 create your CatalogSource.
 
-The instructions below demonstrates how to install the skupper-operator
-and run it inside the `default` namespace.
 
 ## Installing on Minikube
 
@@ -86,6 +89,15 @@ skupper-router-8c6cc6d76-27562                1/1     Running   0          40s
 skupper-service-controller-57cdbb56c5-vc7s2   1/1     Running   0          34s
 skupper-site-controller-d7b57964-gxms6        1/1     Running   0          51m
 ```
+
+You can now navigate to the Skupper console.
+
+```
+$ kubectl get routes
+```
+
+Navigate to the `skupper` route and use `admin/admin` to log in.
+
 
 For more information, visit the official [Skupper website](https://skupper.io)
 
