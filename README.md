@@ -95,10 +95,12 @@ skupper-site-controller-d7b57964-gxms6        1/1     Running   0          51m
 You can now navigate to the Skupper console.
 
 ```
-$ skupper -n <namespace> 
+$ skupper -n <namespace> status
 ```
 
-Navigate to the `skupper` route and use `admin/admin` to log in.
+The namespace in the example YAML is `my-namespace`.
+
+Navigate to the `skupper` route and log in using the credentials you specified in YAML. The example YAML uses `admin/changeme`.
 
 
 For more information, visit the official [Skupper website](https://skupper.io)
