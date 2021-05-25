@@ -34,7 +34,7 @@ kubectl -n olm get pods | grep skupper-operator
 # Create an OperatorGroup in the `my-namespace` namespace
 kubectl apply -f examples/k8s/10-og.yaml
 
-# Create a Subscription at the `my-namespace` namespace
+# Create a Subscription in the `my-namespace` namespace
 kubectl apply -f examples/k8s/20-sub.yaml
 ```
 
@@ -152,7 +152,7 @@ at the correct namespaces, see below.
 
 ## Cluster-wide installation on Minikube
 
-On Minikube the `Subscription` needs to be defined at the `operators` namespace, like:
+On Minikube the `Subscription` needs to be defined in the `operators` namespace, like:
 
 ```
 kubectl apply -f examples/k8s/20-sub-cluster-wide.yaml
@@ -160,7 +160,7 @@ kubectl apply -f examples/k8s/20-sub-cluster-wide.yaml
 
 ## Cluster-wide installation on OpenShift
 
-On OpenShift the `Subscription` needs to be defined at the `openshift-operators` namespace, like:
+On OpenShift the `Subscription` needs to be defined in the `openshift-operators` namespace, like:
 
 ```
 kubectl apply -f examples/ocp/20-sub-cluster-wide.yaml
