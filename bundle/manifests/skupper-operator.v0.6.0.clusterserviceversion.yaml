@@ -4,7 +4,7 @@ metadata:
   annotations:
     alm-examples: '[]'
     certified: "false"
-    categories: "Integration & Delivery"
+    categories: "Integration & Delivery, Networking, Streaming & Messaging"
     description: Skupper Operator provides the ability to create a Virtual Application Network
     containerImage: quay.io/skupper/skupper-operator-bundle:v0.6.0
     createdAt: 2021-04-14T08:00:00Z
