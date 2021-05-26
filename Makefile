@@ -1,4 +1,4 @@
-VERSION ?= v0.0.1
+VERSION ?= v0.6.0
 BUNDLE_IMG ?= quay.io/skupper/skupper-operator-bundle:$(VERSION)
 INDEX_IMG ?= quay.io/skupper/skupper-operator-index:$(VERSION)
 OPM_URL := https://github.com/operator-framework/operator-registry/releases/latest/download/linux-amd64-opm

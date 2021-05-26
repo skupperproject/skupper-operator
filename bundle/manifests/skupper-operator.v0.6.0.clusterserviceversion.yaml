@@ -3,10 +3,21 @@ kind: ClusterServiceVersion
 metadata:
   annotations:
     alm-examples: '[]'
-    capabilities: Basic Install
+    certified: "false"
+    categories: "Integration & Delivery, Networking, Streaming & Messaging"
+    description: Skupper Operator provides the ability to create a Virtual Application Network
+    containerImage: quay.io/skupper/skupper-operator-bundle:v0.6.0
+    createdAt: 2021-04-14T08:00:00Z
+    capabilities: Seamless Upgrades
+    repository: https://github.com/skupperproject/skupper-operator
+    support: Skupper Project
+
     operators.operatorframework.io/builder: operator-sdk-v1.4.0+git
     operators.operatorframework.io/project_layout: go.kubebuilder.io/v3
-  name: skupper-operator.v0.0.1
+  labels:
+    operatorframework.io/os.linux: supported
+    operatorframework.io/arch.amd64: supported
+  name: skupper-operator.v0.6.0
   namespace: placeholder
 spec:
   apiservicedefinitions: {}
@@ -164,7 +175,7 @@ spec:
               containers:
               - command:
                 - /app/site-controller
-                image: quay.io/skupper/site-controller@sha256:6618deb1c2cd45965f4f4f9cb46bdc4e37340188acf36e619f952df3255c0571
+                image: quay.io/skupper/site-controller@sha256:b8626e3beda540fd37a6ed523b76b879e1cfc492824223187d2d903c4763afa7
                 name: manager
                 securityContext:
                   allowPrivilegeEscalation: false
@@ -173,6 +184,8 @@ spec:
                   valueFrom:
                     fieldRef:
                       fieldPath: metadata.annotations['olm.targetNamespaces']
+                - name: QDROUTERD_IMAGE
+                  value: quay.io/interconnectedcloud/qdrouterd@sha256:d5a8006292f0182c9a81511260c38438bc883e56059d7c2802748118a1663505
               securityContext:
                 runAsNonRoot: false
               serviceAccountName: skupper-site-controller
@@ -202,4 +215,4 @@ spec:
   provider:
     name: Skupper Project
     url: https://skupper.io
-  version: 0.0.1
+  version: 0.6.0
