@@ -60,7 +60,7 @@ Look at the pods running in your `my-namespace` namespace now. You should
 see a running pod for the `skupper-site-controller`.
 
 ```
-kubectl get pods
+kubectl -n my-namespace get pods
 NAME                                     READY   STATUS    RESTARTS   AGE
 skupper-site-controller-d7b57964-gxms6   1/1     Running   0          39m
 ```
@@ -85,7 +85,7 @@ see the `skupper-router` and the `skupper-service-controller` pods running
 in the `my-namespace` namespace, in example:
 
 ```
-kubectl get pods
+kubectl -n my-namespace get pods
 NAME                                          READY   STATUS    RESTARTS   AGE
 skupper-router-8c6cc6d76-27562                1/1     Running   0          40s
 skupper-service-controller-57cdbb56c5-vc7s2   1/1     Running   0          34s
@@ -117,7 +117,7 @@ kubectl delete -f examples/skupper-site-interior.yaml
 kubectl delete -f examples/k8s/20-sub.yaml
 
 # Delete the CSV
-kubectl delete csv skupper-operator.v0.6.0
+kubectl -n my-namespace delete csv skupper-operator.v0.6.0
 
 # Deleting the OperatorGroup
 kubectl delete -f examples/k8s/10-og.yaml
@@ -136,7 +136,7 @@ kubectl delete -f examples/skupper-site-interior.yaml
 kubectl delete -f examples/ocp/20-sub.yaml
 
 # Delete the CSV
-kubectl delete csv skupper-operator.v0.6.0
+kubectl -n my-namespace delete csv skupper-operator.v0.6.0
 
 # Deleting the OperatorGroup
 kubectl delete -f examples/ocp/10-og.yaml
