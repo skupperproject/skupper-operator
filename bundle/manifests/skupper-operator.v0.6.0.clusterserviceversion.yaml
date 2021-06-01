@@ -186,6 +186,8 @@ spec:
                       fieldPath: metadata.annotations['olm.targetNamespaces']
                 - name: QDROUTERD_IMAGE
                   value: quay.io/interconnectedcloud/qdrouterd@sha256:d5a8006292f0182c9a81511260c38438bc883e56059d7c2802748118a1663505
+                - name: SKUPPER_SERVICE_CONTROLLER_IMAGE
+                  value: quay.io/skupper/service-controller@sha256:984f9891dd924d8469da7455a872987ff0d6346a6917ccb453ecc2d05837fa5e
               securityContext:
                 runAsNonRoot: false
               serviceAccountName: skupper-site-controller
