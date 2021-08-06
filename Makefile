@@ -1,6 +1,8 @@
-VERSION ?= v0.6.0
+VERSION ?= v0.7.0
+PREV_VERSION ?= v0.6.0
 BUNDLE_IMG ?= quay.io/skupper/skupper-operator-bundle:$(VERSION)
 INDEX_IMG ?= quay.io/skupper/skupper-operator-index:$(VERSION)
+FROM_INDEX_IMG ?= quay.io/skupper/skupper-operator-index:$(PREV_VERSION)
 OPM_URL := https://github.com/operator-framework/operator-registry/releases/latest/download/linux-amd64-opm
 OPM := $(or $(shell which opm 2> /dev/null),./opm)
 CONTAINER_TOOL := podman
@@ -24,7 +26,7 @@ endif
 index-build: bundle-build opm-download
 	@echo Building index image
 	$(info Using OPM Tool: $(OPM))
-	$(OPM) index add --bundles $(BUNDLE_IMG) --tag $(INDEX_IMG)
+	$(OPM) index add --bundles $(BUNDLE_IMG) --from-index $(FROM_INDEX_IMG) --tag $(INDEX_IMG)
 	$(CONTAINER_TOOL) push $(INDEX_IMG)
 
 .PHONY: test
