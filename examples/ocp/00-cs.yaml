@@ -5,4 +5,4 @@ metadata:
   namespace: openshift-marketplace
 spec:
   sourceType: grpc
-  image: quay.io/skupper/skupper-operator-index:v0.8.1
+  image: quay.io/skupper/skupper-operator-index:v0.8.7
