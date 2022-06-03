@@ -233,7 +233,7 @@ spec:
               containers:
               - command:
                 - /app/site-controller
-                image: quay.io/skupper/site-controller@sha256:1f614e521899b08f1ae89f5d5d4e3cf55eb0b4c52a23c4d91ab577817085cc3f
+                image: quay.io/skupper/site-controller@sha256:90e9a64ac1bab3834e5e7e6861f8c41f9b4a2c90f166cc212e246dc544a709a6
                 name: manager
                 securityContext:
                   allowPrivilegeEscalation: false
@@ -243,9 +243,9 @@ spec:
                     fieldRef:
                       fieldPath: metadata.annotations['olm.targetNamespaces']
                 - name: QDROUTERD_IMAGE
-                  value: quay.io/skupper/skupper-router@sha256:5f08ae90af0ab819f1af3a6549a7a79cf00282769d79514dc6fdd1d7b8d82396
+                  value: quay.io/skupper/skupper-router@sha256:e563f069635fbabe4080770107defcd15d10125aa2f1e0747f118942efe9f9b8
                 - name: SKUPPER_SERVICE_CONTROLLER_IMAGE
-                  value: quay.io/skupper/service-controller@sha256:85f4dab48dcdea362dfcc05ab2d39cf869270fe69fe63b78637027962d04694e
+                  value: quay.io/skupper/service-controller@sha256:bdb0e53dc08bdc1cba033dc366513ec4f58a15cb636a5aeea8303bf73eb59ab1
               securityContext:
                 runAsNonRoot: false
               serviceAccountName: skupper-site-controller
