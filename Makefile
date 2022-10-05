@@ -1,5 +1,5 @@
-VERSION ?= v1.0.0
-PREV_VERSION ?= v0.8.7
+VERSION ?= v1.1.1
+PREV_VERSION ?= v1.0.0
 BUNDLE_IMG ?= quay.io/skupper/skupper-operator-bundle:$(VERSION)
 INDEX_IMG ?= quay.io/skupper/skupper-operator-index:$(VERSION)
 FROM_INDEX_IMG ?= quay.io/skupper/skupper-operator-index:$(PREV_VERSION)

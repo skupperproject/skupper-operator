@@ -6,7 +6,7 @@ metadata:
     certified: "false"
     categories: "Integration & Delivery, Networking, Streaming & Messaging"
     description: Skupper Operator provides the ability to create a service network
-    containerImage: quay.io/skupper/skupper-operator-bundle:v1.0.0
+    containerImage: quay.io/skupper/skupper-operator-bundle:v1.1.1
     createdAt: 2021-04-14T08:00:00Z
     capabilities: Seamless Upgrades
     repository: https://github.com/skupperproject/skupper-operator
@@ -17,10 +17,10 @@ metadata:
   labels:
     operatorframework.io/os.linux: supported
     operatorframework.io/arch.amd64: supported
-  name: skupper-operator.v1.0.0
+  name: skupper-operator.v1.1.1
   namespace: placeholder
 spec:
-  replaces: skupper-operator.v0.8.7
+  replaces: skupper-operator.v1.0.0
   apiservicedefinitions: {}
   description: |
     Skupper enables communication between services running in different network locations.
@@ -233,7 +233,7 @@ spec:
               containers:
               - command:
                 - /app/site-controller
-                image: quay.io/skupper/site-controller@sha256:90e9a64ac1bab3834e5e7e6861f8c41f9b4a2c90f166cc212e246dc544a709a6
+                image: quay.io/skupper/site-controller@sha256:69a0de2e36b23661fff1a490a54113355e531d80ffc9dff6d01252a406d6e302
                 name: manager
                 securityContext:
                   allowPrivilegeEscalation: false
@@ -243,9 +243,9 @@ spec:
                     fieldRef:
                       fieldPath: metadata.annotations['olm.targetNamespaces']
                 - name: QDROUTERD_IMAGE
-                  value: quay.io/skupper/skupper-router@sha256:e563f069635fbabe4080770107defcd15d10125aa2f1e0747f118942efe9f9b8
+                  value: quay.io/skupper/skupper-router@sha256:0e3887c570cf00f6a03fc6b1fc0b2a88dd65af64f1a5b2ab69cf72f1b59f0193
                 - name: SKUPPER_SERVICE_CONTROLLER_IMAGE
-                  value: quay.io/skupper/service-controller@sha256:bdb0e53dc08bdc1cba033dc366513ec4f58a15cb636a5aeea8303bf73eb59ab1
+                  value: quay.io/skupper/service-controller@sha256:f984aa2a058954fb7c68ae2e64a426a915facc0b682ec24f412582b8f377e00c
               securityContext:
                 runAsNonRoot: false
               serviceAccountName: skupper-site-controller
@@ -275,4 +275,4 @@ spec:
   provider:
     name: Skupper Project
     url: https://skupper.io
-  version: 1.0.0
+  version: 1.1.1
