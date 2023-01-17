@@ -247,7 +247,7 @@ spec:
                 - name: SKUPPER_SERVICE_CONTROLLER_IMAGE
                   value: quay.io/skupper/service-controller@sha256:c006db1701b6c795b446ea80c0ef55472ef2c875237cb337866360653659a29b
               securityContext:
-                runAsNonRoot: false
+                runAsNonRoot: true
               serviceAccountName: skupper-site-controller
               terminationGracePeriodSeconds: 10
     strategy: deployment
