@@ -24,9 +24,9 @@ endif
 
 .PHONY: index-build ## Build the index image.
 index-build: bundle-build opm-download
-	@echo Building index image
+	@echo Adding bundle to the catalog
 	$(info Using OPM Tool: $(OPM))
-	$(OPM) index add --bundles $(BUNDLE_IMG) --from-index $(FROM_INDEX_IMG) --tag $(INDEX_IMG)
+	$(OPM) render $(BUNDLE_IMG) --output yaml >> skupper-operator-index/skupper-operator/catalog.yaml
 	$(CONTAINER_TOOL) push $(INDEX_IMG)
 
 .PHONY: test
