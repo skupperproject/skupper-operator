@@ -12,11 +12,8 @@ all: index-build
 .PHONY: verify-dup
 verify-dup:
 	@echo Validating catalog entries
-	@(! (cat $(CATALOG_YAML) | yq -r '.entries | select(. != null) | .[].name' | grep -q "skupper-operator.$(VERSION)") || \
-		( echo $(VERSION) is already defined in the catalog.yaml, remove it manually before proceeding && exit 1 ))
-	@(! (cat $(CATALOG_YAML) | yq -r '.image | select(. != null)' | grep -q "^$(BUNDLE_IMG)$$") || \
-		( echo Image $(BUNDLE_IMG) is already defined in the catalog.yaml, remove it manually before proceeding && exit 1 ))
-	@echo GOOD
+	@cat $(CATALOG_YAML) | yq --arg version "$(VERSION)" -y 'del(. | select(.name == "skupper-operator." + $$version)) | del(.entries[]? | select(.name == "skupper-operator." + $$version))' \
+		| sed -re '/^(--- null|\.\.\.)$$/d' > catalog.yaml.tmp && mv catalog.yaml.tmp $(CATALOG_YAML)
 
 .PHONY: bundle-build ## Build the bundle image.
 bundle-build: verify-dup test
