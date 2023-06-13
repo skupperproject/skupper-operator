@@ -105,7 +105,7 @@ function createAndPrepareCSV() {
     cp ${oldcsv} ${newcsv}
 
     # Updating CSV file
-    python ./scripts/updatecsv.py ${newcsv}
+    python ./scripts/update_csv.py ${newcsv}
 }
 
 #
@@ -115,7 +115,7 @@ createAndPrepareCSV
 #
 # Updating examples
 #
-python ./scripts/updateexamples.py
+python ./scripts/update_examples.py
 #
 # Updating README.md
 #
@@ -128,17 +128,6 @@ sed -i "s#COPY bundle/manifests/${CUR_VERSION}#COPY bundle/manifests/${NEW_VERSI
 # Updating Makefile
 #
 sed -ri "s/^VERSION := .*/VERSION := v${NEW_VERSION}/g" Makefile
-sed -ri "s/^REPLACES_VERSION := .*/REPLACES_VERSION := v${REPLACES_VERSION}/g" Makefile
-SKIP_VERSIONS_MAKEFILE=""
-if [[ -n "${SKIP_VERSIONS}" ]]; then
-    count=0
-    for sv in ${SKIP_VERSIONS//,/ }; do
-        let count++
-        [[ ${count} -gt 1 ]] && SKIP_VERSIONS_MAKEFILE+=","
-        SKIP_VERSIONS_MAKEFILE+="v${sv}"
-    done
-fi
-sed -ri "s/^SKIP_VERSIONS := .*/SKIP_VERSIONS := ${SKIP_VERSIONS_MAKEFILE}/g" Makefile
 
 echo
 cat << EOF

@@ -1,6 +1,4 @@
 VERSION := v1.4.0-rc2
-REPLACES_VERSION := v1.3.0
-SKIP_VERSIONS := 
 BUNDLE_IMG ?= quay.io/skupper/skupper-operator-bundle:$(VERSION)
 INDEX_IMG ?= quay.io/skupper/skupper-operator-index:$(VERSION)
 OPM_URL := https://github.com/operator-framework/operator-registry/releases/latest/download/linux-amd64-opm
@@ -10,15 +8,8 @@ CATALOG_YAML := skupper-operator-index/skupper-operator/catalog.yaml
 
 all: index-build
 
-.PHONY: verify-dup
-verify-dup:
-	@echo Validating catalog entries
-	@export CATALOG_YAML="$(CATALOG_YAML)"; \
-		export VERSION="$(VERSION)"; \
-		./scripts/index_del_entry.sh
-
 .PHONY: bundle-build ## Build the bundle image.
-bundle-build: verify-dup test
+bundle-build: test
 	@echo Building bundle image
 	$(CONTAINER_TOOL) build -f bundle.Dockerfile -t $(BUNDLE_IMG) .
 	@echo Pushing $(BUNDLE_IMG)
@@ -31,16 +22,11 @@ ifeq (,$(wildcard $(OPM)))
 	wget --quiet $(OPM_URL) -O ./opm && chmod +x ./opm
 endif
 
-#index-build: bundle-build opm-download
 .PHONY: index-build ## Build the index image.
-index-build: 
+index-build: bundle-build opm-download
 	$(info Using OPM Tool: $(OPM))
-	@echo Adding new entry to catalog.yaml
-	@export CATALOG_YAML="$(CATALOG_YAML)"; \
-		export VERSION="$(VERSION)"; \
-		export REP_VERSION="$(REPLACES_VERSION)"; \
-		export SKIP_VERSIONS="$(SKIP_VERSIONS)"; \
-		./scripts/index_add_entry.sh
+	@echo Adding unique $(VERSION) entry to catalog.yaml
+	@python ./scripts/index_update.py $(CATALOG_YAML)
 	@echo Adding bundle to the catalog
 	$(OPM) render $(BUNDLE_IMG) --output yaml >> $(CATALOG_YAML)
 	$(OPM) validate skupper-operator-index/
