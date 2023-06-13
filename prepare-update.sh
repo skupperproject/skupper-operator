@@ -22,17 +22,20 @@ if ${INTERACTIVE}; then
 	echo
 	read_var NEW_VERSION "New skupper-operator version" true ""
 	
-	cur_default=`grep '^VERSION ?= v' Makefile | cut -c 13-`
-	rep_default=`grep '^REPLACES_VERSION ?= v' Makefile | cut -c 22-`
+	cur_default=`grep '^VERSION := v' Makefile | cut -c 13-`
 	
 	read_var CUR_VERSION "Previous CSV version" true "${cur_default}"
-	read_var REPLACES_VERSION "CSV version to replace (latest released version - non rc)" true "${rep_default}"
-	SKIP_VERSIONS=()
+	read_var REPLACES_VERSION "CSV version to replace (latest released version - non rc)" true "${cur_default}"
+	SKIP_VERSIONS=""
+    count=0
 	while true; do
+        let count++
 	    read_var SKIP_VERSION "Enter version(s) to be skipped (or empty when done)" false ""
 	    [[ -z "${SKIP_VERSION}" ]] && break
-	    SKIP_VERSIONS+=("${SKIP_VERSION}")
+        [[ ${count} -gt 1 ]] && SKIP_VERSIONS+=","
+	    SKIP_VERSIONS+="${SKIP_VERSION}"
 	done
+    
 	
 	echo
 	echo Enter image tags
@@ -101,7 +104,7 @@ function createAndPrepareCSV() {
     cp ${oldcsv} ${newcsv}
 
     # Updating CSV file
-    python ./scripts/updatecsv.py ${newcsv}
+    python ./scripts/update_csv.py ${newcsv}
 }
 
 #
@@ -111,7 +114,7 @@ createAndPrepareCSV
 #
 # Updating examples
 #
-python ./scripts/updateexamples.py
+python ./scripts/update_examples.py
 #
 # Updating README.md
 #
@@ -123,8 +126,7 @@ sed -i "s#COPY bundle/manifests/${CUR_VERSION}#COPY bundle/manifests/${NEW_VERSI
 #
 # Updating Makefile
 #
-sed -ri "s/^VERSION \?= .*/VERSION ?= v${NEW_VERSION}/g" Makefile
-sed -ri "s/^REPLACES_VERSION \?= .*/REPLACES_VERSION ?= v${REPLACES_VERSION}/g" Makefile
+sed -ri "s/^VERSION := .*/VERSION := v${NEW_VERSION}/g" Makefile
 
 echo
 cat << EOF
