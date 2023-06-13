@@ -25,6 +25,7 @@ if ${INTERACTIVE}; then
 	cur_default=`grep '^VERSION ?= v' Makefile | cut -c 13-`
 	
 	read_var CUR_VERSION "Previous CSV version" true "${cur_default}"
+	read_var REPLACES_VERSION "CSV version to replace (latest released version - non rc)" true "${cur_default}"
 	SKIP_VERSIONS=()
 	while true; do
 	    read_var SKIP_VERSION "Enter version(s) to be skipped (or empty when done)" false ""
@@ -63,6 +64,7 @@ echo
 printf "%-25s: %s\n" "==== Version info ===="
 printf "%-25s: %s\n" "New version" "${NEW_VERSION}"
 printf "%-25s: %s\n" "Previous version" "${CUR_VERSION}"
+printf "%-25s: %s\n" "Replaces version" "${REPLACES_VERSION}"
 printf "%-25s: %s\n" "Versions to skip" "${SKIP_VERSIONS:-none}"
 echo
 echo

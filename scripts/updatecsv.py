@@ -7,6 +7,7 @@ from datetime import datetime
 # reading params from env vars
 newversion=os.getenv("NEW_VERSION")
 curversion=os.getenv("CUR_VERSION")
+replacesversion=os.getenv("REPLACES_VERSION")
 routersha=os.getenv("SKUPPER_ROUTER_SHA")
 sitecontrollersha=os.getenv("SITE_CONTROLLER_SHA")
 servicecontrollersha=os.getenv("SERVICE_CONTROLLER_SHA")
@@ -24,7 +25,7 @@ with open(sys.argv[1], 'r') as f:
 #
 # facts to be used in the csv
 #
-replacesname = csv['metadata']['name']
+replacesname = "skupper-operator.v" + replacesversion
 csvname = csv['metadata']['name'].replace(curversion, newversion)
 
 # update csv name
