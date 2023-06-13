@@ -23,10 +23,9 @@ if ${INTERACTIVE}; then
 	read_var NEW_VERSION "New skupper-operator version" true ""
 	
 	cur_default=`grep '^VERSION := v' Makefile | cut -c 13-`
-	rep_default=`grep '^REPLACES_VERSION := v' Makefile | cut -c 22-`
 	
 	read_var CUR_VERSION "Previous CSV version" true "${cur_default}"
-	read_var REPLACES_VERSION "CSV version to replace (latest released version - non rc)" true "${rep_default}"
+	read_var REPLACES_VERSION "CSV version to replace (latest released version - non rc)" true "${cur_default}"
 	SKIP_VERSIONS=""
     count=0
 	while true; do
