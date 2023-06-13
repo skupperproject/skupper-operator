@@ -22,17 +22,21 @@ if ${INTERACTIVE}; then
 	echo
 	read_var NEW_VERSION "New skupper-operator version" true ""
 	
-	cur_default=`grep '^VERSION ?= v' Makefile | cut -c 13-`
-	rep_default=`grep '^REPLACES_VERSION ?= v' Makefile | cut -c 22-`
+	cur_default=`grep '^VERSION := v' Makefile | cut -c 13-`
+	rep_default=`grep '^REPLACES_VERSION := v' Makefile | cut -c 22-`
 	
 	read_var CUR_VERSION "Previous CSV version" true "${cur_default}"
 	read_var REPLACES_VERSION "CSV version to replace (latest released version - non rc)" true "${rep_default}"
-	SKIP_VERSIONS=()
+	SKIP_VERSIONS=""
+    count=0
 	while true; do
+        let count++
 	    read_var SKIP_VERSION "Enter version(s) to be skipped (or empty when done)" false ""
 	    [[ -z "${SKIP_VERSION}" ]] && break
-	    SKIP_VERSIONS+=("${SKIP_VERSION}")
+        [[ ${count} -gt 1 ]] && SKIP_VERSIONS+=","
+	    SKIP_VERSIONS+="${SKIP_VERSION}"
 	done
+    
 	
 	echo
 	echo Enter image tags
@@ -123,8 +127,18 @@ sed -i "s#COPY bundle/manifests/${CUR_VERSION}#COPY bundle/manifests/${NEW_VERSI
 #
 # Updating Makefile
 #
-sed -ri "s/^VERSION \?= .*/VERSION ?= v${NEW_VERSION}/g" Makefile
-sed -ri "s/^REPLACES_VERSION \?= .*/REPLACES_VERSION ?= v${REPLACES_VERSION}/g" Makefile
+sed -ri "s/^VERSION := .*/VERSION := v${NEW_VERSION}/g" Makefile
+sed -ri "s/^REPLACES_VERSION := .*/REPLACES_VERSION := v${REPLACES_VERSION}/g" Makefile
+SKIP_VERSIONS_MAKEFILE=""
+if [[ -n "${SKIP_VERSIONS}" ]]; then
+    count=0
+    for sv in ${SKIP_VERSIONS//,/ }; do
+        let count++
+        [[ ${count} -gt 1 ]] && SKIP_VERSIONS_MAKEFILE+=","
+        SKIP_VERSIONS_MAKEFILE+="v${sv}"
+    done
+fi
+sed -ri "s/^SKIP_VERSIONS := .*/SKIP_VERSIONS := ${SKIP_VERSIONS_MAKEFILE}/g" Makefile
 
 echo
 cat << EOF

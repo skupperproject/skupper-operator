@@ -1,5 +1,6 @@
-VERSION ?= v1.4.0-rc2
-REPLACES_VERSION ?= v1.3.0
+VERSION := v1.4.0-rc2
+REPLACES_VERSION := v1.3.0
+SKIP_VERSIONS := 
 BUNDLE_IMG ?= quay.io/skupper/skupper-operator-bundle:$(VERSION)
 INDEX_IMG ?= quay.io/skupper/skupper-operator-index:$(VERSION)
 OPM_URL := https://github.com/operator-framework/operator-registry/releases/latest/download/linux-amd64-opm
@@ -12,8 +13,9 @@ all: index-build
 .PHONY: verify-dup
 verify-dup:
 	@echo Validating catalog entries
-	@cat $(CATALOG_YAML) | yq --arg version "$(VERSION)" -y 'del(. | select(.name == "skupper-operator." + $$version)) | del(.entries[]? | select(.name == "skupper-operator." + $$version))' \
-		| sed -re '/^(--- null|\.\.\.)$$/d' > catalog.yaml.tmp && mv catalog.yaml.tmp $(CATALOG_YAML)
+	@export CATALOG_YAML="$(CATALOG_YAML)"; \
+		export VERSION="$(VERSION)"; \
+		./scripts/index_del_entry.sh
 
 .PHONY: bundle-build ## Build the bundle image.
 bundle-build: verify-dup test
@@ -29,12 +31,16 @@ ifeq (,$(wildcard $(OPM)))
 	wget --quiet $(OPM_URL) -O ./opm && chmod +x ./opm
 endif
 
+#index-build: bundle-build opm-download
 .PHONY: index-build ## Build the index image.
-index-build: bundle-build opm-download
+index-build: 
 	$(info Using OPM Tool: $(OPM))
 	@echo Adding new entry to catalog.yaml
-	@cat $(CATALOG_YAML) | yq -y 'if .entries then .entries+=[{"name": "skupper-operator.$(VERSION)", "replaces": "skupper-operator.$(REPLACES_VERSION)"}] else . end' > $(CATALOG_YAML).new
-	@mv $(CATALOG_YAML).new $(CATALOG_YAML)
+	@export CATALOG_YAML="$(CATALOG_YAML)"; \
+		export VERSION="$(VERSION)"; \
+		export REP_VERSION="$(REPLACES_VERSION)"; \
+		export SKIP_VERSIONS="$(SKIP_VERSIONS)"; \
+		./scripts/index_add_entry.sh
 	@echo Adding bundle to the catalog
 	$(OPM) render $(BUNDLE_IMG) --output yaml >> $(CATALOG_YAML)
 	$(OPM) validate skupper-operator-index/
