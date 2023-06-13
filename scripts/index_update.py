@@ -7,14 +7,15 @@ from datetime import datetime
 # reading params from env vars
 new_version=os.getenv("NEW_VERSION")
 replaces_version=os.getenv("REPLACES_VERSION")
+skip_versions_list=os.getenv("SKIP_VERSIONS")
 
 # defining env based variables
 new_version_name='skupper-operator.v' + new_version
 replaces_name = "skupper-operator.v" + replaces_version
 skip_versions=[]
-if skipversionslist and len(skipversionslist) > 0:
-    for sv in skipversionslist.split(","):
-        skipversions.append('skupper-operator.v' + sv)
+if skip_versions_list and len(skip_versions_list) > 0:
+    for sv in skip_versions_list.split(","):
+        skip_versions.append('skupper-operator.v' + sv)
 
 # loading catalog (yaml) file
 new_catalog_docs=list()
@@ -36,6 +37,7 @@ with open(sys.argv[1], 'r') as f:
             }
             if len(skip_versions) > 0:
                 new_entry['skips'] = skip_versions
+            new_entries.append(new_entry)
 
             doc['entries'] = new_entries
 
