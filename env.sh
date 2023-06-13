@@ -7,7 +7,7 @@ export NEW_VERSION="1.4.0-rc2"
 export CUR_VERSION="`grep '^VERSION ?= v' Makefile | cut -c 13-`"
 
 # The latest released version to be replaced (non rc), i.e.: 1.3.0
-export REPLACES_VERSION="1.3.0"
+export REPLACES_VERSION="`grep '^REPLACES_VERSION ?= v' Makefile | cut -c 22-`"
 
 # The tag to be used for the skupper-router image
 export SKUPPER_ROUTER_TAG="2.4.0-rc2"

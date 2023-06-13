@@ -1,5 +1,5 @@
 VERSION ?= v1.4.0-rc2
-PREV_VERSION ?= v1.3.0
+REPLACES_VERSION ?= v1.3.0
 BUNDLE_IMG ?= quay.io/skupper/skupper-operator-bundle:$(VERSION)
 INDEX_IMG ?= quay.io/skupper/skupper-operator-index:$(VERSION)
 OPM_URL := https://github.com/operator-framework/operator-registry/releases/latest/download/linux-amd64-opm
@@ -33,7 +33,7 @@ endif
 index-build: bundle-build opm-download
 	$(info Using OPM Tool: $(OPM))
 	@echo Adding new entry to catalog.yaml
-	@cat $(CATALOG_YAML) | yq -y 'if .entries then .entries+=[{"name": "skupper-operator.$(VERSION)", "replaces": "skupper-operator.$(PREV_VERSION)"}] else . end' > $(CATALOG_YAML).new
+	@cat $(CATALOG_YAML) | yq -y 'if .entries then .entries+=[{"name": "skupper-operator.$(VERSION)", "replaces": "skupper-operator.$(REPLACES_VERSION)"}] else . end' > $(CATALOG_YAML).new
 	@mv $(CATALOG_YAML).new $(CATALOG_YAML)
 	@echo Adding bundle to the catalog
 	$(OPM) render $(BUNDLE_IMG) --output yaml >> $(CATALOG_YAML)

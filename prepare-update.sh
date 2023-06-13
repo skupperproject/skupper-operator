@@ -23,9 +23,10 @@ if ${INTERACTIVE}; then
 	read_var NEW_VERSION "New skupper-operator version" true ""
 	
 	cur_default=`grep '^VERSION ?= v' Makefile | cut -c 13-`
+	rep_default=`grep '^REPLACES_VERSION ?= v' Makefile | cut -c 22-`
 	
 	read_var CUR_VERSION "Previous CSV version" true "${cur_default}"
-	read_var REPLACES_VERSION "CSV version to replace (latest released version - non rc)" true "${cur_default}"
+	read_var REPLACES_VERSION "CSV version to replace (latest released version - non rc)" true "${rep_default}"
 	SKIP_VERSIONS=()
 	while true; do
 	    read_var SKIP_VERSION "Enter version(s) to be skipped (or empty when done)" false ""
@@ -123,7 +124,7 @@ sed -i "s#COPY bundle/manifests/${CUR_VERSION}#COPY bundle/manifests/${NEW_VERSI
 # Updating Makefile
 #
 sed -ri "s/^VERSION \?= .*/VERSION ?= v${NEW_VERSION}/g" Makefile
-sed -ri "s/^PREV_VERSION \?= .*/PREV_VERSION ?= v${CUR_VERSION}/g" Makefile
+sed -ri "s/^REPLACES_VERSION \?= .*/REPLACES_VERSION ?= v${REPLACES_VERSION}/g" Makefile
 
 echo
 cat << EOF
