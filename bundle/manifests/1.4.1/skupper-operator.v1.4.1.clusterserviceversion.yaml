@@ -156,6 +156,10 @@ spec:
           template:
             metadata:
               labels:
+                app.kubernetes.io/name: skupper-site-controller
+                app.kubernetes.io/part-of: skupper
+                skupper.io/component: site-controller
+                application: skupper-site-controller
                 control-plane: controller-manager
             spec:
               containers:
