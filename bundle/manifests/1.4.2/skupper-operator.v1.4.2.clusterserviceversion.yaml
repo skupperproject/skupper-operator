@@ -6,8 +6,8 @@ metadata:
     capabilities: Seamless Upgrades
     categories: Integration & Delivery, Networking, Streaming & Messaging
     certified: 'false'
-    containerImage: quay.io/skupper/skupper-operator-bundle:v1.4.1
-    createdAt: '2023-06-21T18:28:43Z'
+    containerImage: quay.io/skupper/skupper-operator-bundle:v1.4.2
+    createdAt: '2023-07-24T13:25:17Z'
     description: Skupper Operator provides the ability to create a service network
     operators.operatorframework.io/builder: operator-sdk-v1.4.0+git
     operators.operatorframework.io/project_layout: go.kubebuilder.io/v3
@@ -16,7 +16,7 @@ metadata:
   labels:
     operatorframework.io/arch.amd64: supported
     operatorframework.io/os.linux: supported
-  name: skupper-operator.v1.4.1
+  name: skupper-operator.v1.4.2
   namespace: placeholder
 spec:
   apiservicedefinitions: {}
@@ -55,7 +55,7 @@ spec:
           - list
           - watch
         - apiGroups:
-          - ""
+          - ''
           resources:
           - nodes
           verbs:
@@ -63,7 +63,7 @@ spec:
           - list
           - watch
         - apiGroups:
-          - ""
+          - ''
           resources:
           - namespaces
           verbs:
@@ -190,9 +190,9 @@ spec:
               labels:
                 app.kubernetes.io/name: skupper-site-controller
                 app.kubernetes.io/part-of: skupper
-                skupper.io/component: site-controller
                 application: skupper-site-controller
                 control-plane: controller-manager
+                skupper.io/component: site-controller
             spec:
               containers:
               - command:
@@ -203,10 +203,10 @@ spec:
                     fieldRef:
                       fieldPath: metadata.annotations['olm.targetNamespaces']
                 - name: QDROUTERD_IMAGE
-                  value: quay.io/skupper/skupper-router@sha256:0dfaafba745b18996b428c9683dd2371f0153785f8feedfcefc10fea60eb7fde
+                  value: quay.io/skupper/skupper-router@sha256:37a543fa226a7a5382bfcb08a6c7a44da709fb846d6d7ea0cb4cc32c514a9f94
                 - name: SKUPPER_SERVICE_CONTROLLER_IMAGE
-                  value: quay.io/skupper/service-controller@sha256:38de27dbae9fb30bc2bddc74a945efbe0d630551fcb141eaa6c0c1ef1d4e0d1b
-                image: quay.io/skupper/site-controller@sha256:2ae8c0b3af3b9dd3c80e777c2cec0139f2bef952343c9549505fd63466fc2b92
+                  value: quay.io/skupper/service-controller@sha256:06f3ef0047c6f473094c037a7584f24ca0c5dfb3d7953627bf4593a49c78ff42
+                image: quay.io/skupper/site-controller@sha256:8b2010400aacd972f2b044ff014c7a4dd19e88d508cd052484432e4796d2d99d
                 name: manager
                 securityContext:
                   allowPrivilegeEscalation: false
@@ -325,8 +325,8 @@ spec:
   provider:
     name: Skupper Project
     url: https://skupper.io
-  replaces: skupper-operator.v1.3.0
+  replaces: skupper-operator.v1.4.1
   skips:
   - skupper-operator.v1.4.0-rc2
   - skupper-operator.v1.4.0-rc3
-  version: 1.4.1
+  version: 1.4.2

@@ -7,3 +7,5 @@ data:
   router-mode: interior
   console-user: "admin"
   console-password: "changeme"
+  console: "true"
+  flow-collector: "true"
