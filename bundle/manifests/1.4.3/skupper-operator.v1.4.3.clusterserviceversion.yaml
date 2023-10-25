@@ -111,6 +111,7 @@ spec:
           - configmaps
           - serviceaccounts
           - services
+          - events
           verbs:
           - get
           - list
@@ -259,6 +260,7 @@ spec:
           - configmaps
           - serviceaccounts
           - services
+          - events
           verbs:
           - get
           - list
