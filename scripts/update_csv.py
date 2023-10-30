@@ -33,7 +33,7 @@ csv['metadata']['name'] = csvname
 
 # updating bundle image version
 csv['metadata']['annotations']['createdAt'] = datetime.utcnow().strftime('%Y-%m-%dT%H:%M:%SZ')
-csv['metadata']['annotations']['containerImage'] = csv['metadata']['annotations']['containerImage'].replace(curversion, newversion)
+csv['metadata']['annotations']['containerImage'] = sitecontrollersha
 
 # spec version
 csv['spec']['version'] = newversion
