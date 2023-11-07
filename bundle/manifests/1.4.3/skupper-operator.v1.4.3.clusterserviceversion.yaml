@@ -280,6 +280,7 @@ spec:
           - watch
           - create
           - delete
+          - update
         - apiGroups:
           - networking.k8s.io
           resources:
