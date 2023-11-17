@@ -7,46 +7,81 @@ to kick things off based on an existing skupper-site ConfigMap.
 # Installing the skupper-operator
 
 
-The instructions below demonstrates how to install the skupper-operator
-and run it inside the `my-namespace` namespace. If you want to install it in
+The instructions below demonstrate how to install the skupper-operator
+and run it inside the `my-namespace` namespace. If you want to install it on
 a different namespace, edit the referenced yaml before applying.
 
 If you want to test your catalog against a local minikube cluster,
 you'll need to install OLM first. For more info, check this out:
 https://olm.operatorframework.io/docs/getting-started/
 
-In an OpenShift cluster, OLM is already installed. So you just need to 
-create your CatalogSource.
+In an OpenShift cluster, OLM is already installed.
 
+# Installing from OperatorHub.io (Community Operators)
+
+Skupper Operator is also available on [OperatorHub.io](https://operatorhub.io/operator/skupper-operator).
+
+If the `Community Operators` catalog is available in your cluster, you
+can install the Skupper Operator by visiting the link above and clicking the `Install` button,
+following the respective instructions (only for Kubernetes).
+
+This procedure installs the Skupper Operator at cluster level (watching all namespaces).
+
+Usually to install the latest published version of the Skupper Operator on Kubernetes (only), run:
+
+```shell
+kubectl create -f https://operatorhub.io/install/skupper-operator.yaml
+```
+
+Verify it is up and running executing:
+
+```shell
+kubectl get csv -n operators
+```
+
+If you want to install it to a single namespace, follow the `Installing on Minikube` or
+`Installing on OpenShift` sections.
+
+Otherwise, after the operator has been installed from OperatorHub.io, you can skip the following sections
+and go straight to [Creating a new skupper site](#creating-a-new-skupper-site)
 
 ## Installing on Minikube
 
-To install the CatalogSource in your Minikube cluster, assuming  that
-the OLM is installed (0.17.0+), run:
+To install the Skupper Operator CatalogSource on your Minikube cluster, run:
 
 ```
-# Creating a CatalogSource in the olm namespace
+# Creating a CatalogSource on the olm namespace
 kubectl apply -f examples/k8s/00-cs.yaml
 
 # Wait for the skupper-operator catalog pod to be running
 kubectl -n olm get pods | grep skupper-operator
+```
 
-# Create an OperatorGroup in the `my-namespace` namespace
+Once the catalog is available, you can then create the subscription:
+
+```
+# Create an OperatorGroup on the `my-namespace` namespace
 kubectl apply -f examples/k8s/10-og.yaml
 
-# Create a Subscription in the `my-namespace` namespace
+# Create a Subscription on the `my-namespace` namespace
 kubectl apply -f examples/k8s/20-sub.yaml
 ```
 
 ## Installing on OpenShift
 
+To install the Skupper Operator CatalogSource on your OpenShift cluster, run:
+
 ```
-# Creating a CatalogSource in the `openshift-marketplace` namespace
+# Creating a CatalogSource on the `openshift-marketplace` namespace
 kubectl apply -f examples/ocp/00-cs.yaml
 
 # Wait for the skupper-operator catalog pod to be running
 kubectl -n openshift-marketplace get pods | grep skupper-operator
+```
 
+Once the catalog is available, you can then create the subscription:
+
+```
 # Create an OperatorGroup in the `my-namespace` namespace
 kubectl apply -f examples/ocp/10-og.yaml
 
@@ -67,9 +102,9 @@ skupper-site-controller-d7b57964-gxms6   1/1     Running   0          39m
 
 Now the Skupper Operator is running and you can create a site. 
 At this point with most Operators, you would create a CR, however 
-the Skupper Operator manages your
-Skupper site by watching a `ConfigMap` named exclusively `skupper-site`
-in the namespace where it is running (in this case the `my-namespace` namespace).
+the Skupper Operator manages your Skupper site by watching a `ConfigMap`
+named exclusively `skupper-site` in the namespace where it is running
+(in this case the `my-namespace` namespace).
 
 # Creating a new skupper site
 
@@ -87,8 +122,9 @@ in the `my-namespace` namespace, in example:
 ```
 kubectl -n my-namespace get pods
 NAME                                          READY   STATUS    RESTARTS   AGE
-skupper-router-8c6cc6d76-27562                1/1     Running   0          40s
-skupper-service-controller-57cdbb56c5-vc7s2   1/1     Running   0          34s
+skupper-prometheus-867f57b89-qpm7w            1/1     Running   0          33s
+skupper-router-8c6cc6d76-27562                2/2     Running   0          40s
+skupper-service-controller-57cdbb56c5-vc7s2   2/2     Running   0          34s
 skupper-site-controller-d7b57964-gxms6        1/1     Running   0          51m
 ```
 
