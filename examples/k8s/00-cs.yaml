@@ -6,5 +6,5 @@ metadata:
 spec:
   grpcPodConfig:
     securityContextConfig: restricted
-  image: quay.io/skupper/skupper-operator-index:v1.4.3
+  image: quay.io/skupper/skupper-operator-index:v1.4.4
   sourceType: grpc
