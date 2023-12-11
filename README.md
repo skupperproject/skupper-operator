@@ -8,7 +8,7 @@ to kick things off based on an existing skupper-site ConfigMap.
 
 
 The instructions below demonstrate how to install the skupper-operator
-and run it inside the `my-namespace` namespace. If you want to install it on
+and run it inside the `my-namespace` namespace. If you want to install it in
 a different namespace, edit the referenced yaml before applying.
 
 If you want to test your catalog against a local minikube cluster,
@@ -22,25 +22,24 @@ In an OpenShift cluster, OLM is already installed.
 Skupper Operator is also available on [OperatorHub.io](https://operatorhub.io/operator/skupper-operator).
 
 If the `Community Operators` catalog is available in your cluster, you
-can install the Skupper Operator by visiting the link above and clicking the `Install` button,
-following the respective instructions (only for Kubernetes).
+don't need to install an extra catalog.
 
-This procedure installs the Skupper Operator at cluster level (watching all namespaces).
-
-Usually to install the latest published version of the Skupper Operator on Kubernetes (only), run:
+To install the latest published version of the Skupper Operator on a Kubernetes cluster where OLM is installed, run:
 
 ```shell
 kubectl create -f https://operatorhub.io/install/skupper-operator.yaml
 ```
 
-Verify it is up and running executing:
+This procedure installs the Skupper Operator at cluster level (watching all namespaces).
+
+Verify the Skupper Operator is running by executing:
 
 ```shell
 kubectl get csv -n operators
 ```
 
-If you want to install it to a single namespace, follow the `Installing on Minikube` or
-`Installing on OpenShift` sections.
+If you want to install the Skupper Operator in a single namespace, follow the `Installing on Minikube` or
+`Installing on OpenShift` sections below.
 
 Otherwise, after the operator has been installed from OperatorHub.io, you can skip the following sections
 and go straight to [Creating a new skupper site](#creating-a-new-skupper-site)
@@ -50,7 +49,7 @@ and go straight to [Creating a new skupper site](#creating-a-new-skupper-site)
 To install the Skupper Operator CatalogSource on your Minikube cluster, run:
 
 ```
-# Creating a CatalogSource on the olm namespace
+# Creating a CatalogSource in the olm namespace
 kubectl apply -f examples/k8s/00-cs.yaml
 
 # Wait for the skupper-operator catalog pod to be running
@@ -60,10 +59,10 @@ kubectl -n olm get pods | grep skupper-operator
 Once the catalog is available, you can then create the subscription:
 
 ```
-# Create an OperatorGroup on the `my-namespace` namespace
+# Create an OperatorGroup in the `my-namespace` namespace
 kubectl apply -f examples/k8s/10-og.yaml
 
-# Create a Subscription on the `my-namespace` namespace
+# Create a Subscription in the `my-namespace` namespace
 kubectl apply -f examples/k8s/20-sub.yaml
 ```
 
@@ -72,7 +71,7 @@ kubectl apply -f examples/k8s/20-sub.yaml
 To install the Skupper Operator CatalogSource on your OpenShift cluster, run:
 
 ```
-# Creating a CatalogSource on the `openshift-marketplace` namespace
+# Creating a CatalogSource in the `openshift-marketplace` namespace
 kubectl apply -f examples/ocp/00-cs.yaml
 
 # Wait for the skupper-operator catalog pod to be running
@@ -103,7 +102,7 @@ skupper-site-controller-d7b57964-gxms6   1/1     Running   0          39m
 Now the Skupper Operator is running and you can create a site. 
 At this point with most Operators, you would create a CR, however 
 the Skupper Operator manages your Skupper site by watching a `ConfigMap`
-named exclusively `skupper-site` in the namespace where it is running
+named `skupper-site` in the namespace where it is running
 (in this case the `my-namespace` namespace).
 
 # Creating a new skupper site
