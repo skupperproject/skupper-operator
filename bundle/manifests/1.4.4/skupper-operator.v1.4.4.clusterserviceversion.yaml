@@ -204,7 +204,7 @@ spec:
                     fieldRef:
                       fieldPath: metadata.annotations['olm.targetNamespaces']
                 - name: QDROUTERD_IMAGE
-                  value: quay.io/skupper/skupper-router@sha256:7d33d51ee6ae5c0445f33a669ba2785c792238115b2db3e3dbdce4738648e78b
+                  value: quay.io/skupper/skupper-router@sha256:df6e37a96809936b5a94e6e5585414f7e38e3b0d8f094986ab014c956da73392
                 - name: SKUPPER_SERVICE_CONTROLLER_IMAGE
                   value: quay.io/skupper/service-controller@sha256:55c7e04b4ff7fd111addd39126fc78d0aa474bbea4303fca90c021dbfae8be53
                 image: quay.io/skupper/site-controller@sha256:cbec6c9c8711da5380faa60019868c948c8d08c42da11538566ef7ced1eec555
