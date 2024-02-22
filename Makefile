@@ -5,15 +5,16 @@ OPM_URL := https://github.com/operator-framework/operator-registry/releases/late
 OPM := $(or $(shell which opm 2> /dev/null),./opm)
 CONTAINER_TOOL := podman
 CATALOG_YAML := skupper-operator-index/skupper-operator/catalog.yaml
+PLATFORMS ?= linux/amd64,linux/arm64
 
 all: index-build
 
 .PHONY: bundle-build ## Build the bundle image.
 bundle-build: test
 	@echo Building bundle image
-	$(CONTAINER_TOOL) build -f bundle.Dockerfile -t $(BUNDLE_IMG) .
+	$(CONTAINER_TOOL) buildx build --no-cache --platform ${PLATFORMS} --manifest skupper-operator-bundle -f bundle.Dockerfile -t $(BUNDLE_IMG) .
 	@echo Pushing $(BUNDLE_IMG)
-	$(CONTAINER_TOOL) push $(BUNDLE_IMG)
+	$(CONTAINER_TOOL) manifest push --all skupper-operator-bundle $(BUNDLE_IMG)
 
 .PHONY: opm-download
 opm-download:
@@ -31,9 +32,9 @@ index-build: bundle-build opm-download
 	$(OPM) render $(BUNDLE_IMG) --output yaml >> $(CATALOG_YAML)
 	$(OPM) validate skupper-operator-index/
 	@echo Building index image
-	$(CONTAINER_TOOL) build -f skupper-operator-index.Dockerfile -t $(INDEX_IMG) .
+	$(CONTAINER_TOOL) buildx build --no-cache --platform ${PLATFORMS} --manifest skupper-operator-index -f skupper-operator-index.Dockerfile -t $(INDEX_IMG) .
 	@echo Pushing $(INDEX_IMG)
-	$(CONTAINER_TOOL) push $(INDEX_IMG)
+	$(CONTAINER_TOOL) manifest push --all skupper-operator-index $(INDEX_IMG)
 
 .PHONY: test
 test:

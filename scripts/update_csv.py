@@ -13,6 +13,8 @@ sitecontrollersha=os.getenv("SITE_CONTROLLER_SHA")
 servicecontrollersha=os.getenv("SERVICE_CONTROLLER_SHA")
 configsyncsha=os.getenv("CONFIG_SYNC_SHA")
 flowcollectorsha=os.getenv("FLOW_COLLECTOR_SHA")
+prometheussha=os.getenv("PROMETHEUS_SHA")
+oauthproxysha=os.getenv("OAUTH_PROXY_SHA")
 skipversionslist=os.getenv("SKIP_VERSIONS")
 skipversions=[]
 if skipversionslist and len(skipversionslist) > 0:
@@ -53,6 +55,34 @@ for envvar in csv['spec']['install']['spec']['deployments'][0]['spec']['template
         envvar['value'] = configsyncsha
     elif envvar['name'] == "SKUPPER_FLOW_COLLECTOR_IMAGE":
         envvar['value'] = flowcollectorsha
+    elif envvar['name'] == "PROMETHEUS_SERVER_IMAGE":
+        envvar['value'] = prometheussha
+    elif envvar['name'] == "OAUTH_PROXY_IMAGE":
+        envvar['value'] = oauthproxysha
+
+# updating related images section
+csv['spec']['relatedImages'] = [{
+    'name': 'skupper-site-controller',
+    'image': sitecontrollersha,
+}, {
+    'name': 'skupper-router',
+    'image': routersha,
+}, {
+    'name': 'skupper-service-controller',
+    'image': servicecontrollersha,
+}, {
+    'name': 'skupper-config-sync',
+    'image': configsyncsha,
+}, {
+    'name': 'skupper-flow-collector',
+    'image': flowcollectorsha,
+}, {
+    'name': 'ose-prometheus',
+    'image': prometheussha,
+}, {
+    'name': 'ose-oauth-proxy',
+    'image': oauthproxysha,
+}]
 
 # updating spec replaces value
 csv['spec']['replaces'] = replacesname

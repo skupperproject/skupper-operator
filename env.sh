@@ -10,11 +10,17 @@ export CUR_VERSION="1.5.2"
 export REPLACES_VERSION="1.5.2"
 
 # The tag to be used for the skupper-router image
-export SKUPPER_ROUTER_TAG="2.5.1"
+export SKUPPER_ROUTER_TAG="2.5.2"
 
 # The tag to be used for the control plane images:
 # site-controller, service-controller, config-sync, flow-collector
 export SKUPPER_CONTROL_TAG="1.5.3"
+
+# The tag to be used for the prometheus image
+export PROMETHEUS_TAG="v2.42.0"
+
+# The tag to be used for the oauth proxy image
+export OAUTH_PROXY_TAG="4.14.0"
 
 # Comma separated list of versions to be skipped (optional)
 # example:
