@@ -96,6 +96,9 @@ if ${INTERACTIVE}; then
 	echo
 fi
 
+MAJOR_MIN_VERSION=$(echo "${NEW_VERSION}" | sed -re 's/(.*)\.[0-9]+.*/\1/g')
+MAJOR_VERSION=$(echo "${MAJOR_MIN_VERSION}" | sed -re 's/(.*)\.[0-9]+/\1/g')
+
 # Create a new CSV
 function createAndPrepareCSV() {
     # Creating directory and copying CSV
@@ -110,6 +113,9 @@ function createAndPrepareCSV() {
     oldcsv="bundle/manifests/${CUR_VERSION}/skupper-operator.v${CUR_VERSION}.clusterserviceversion.yaml"
     newcsv="bundle/manifests/${NEW_VERSION}/skupper-operator.v${NEW_VERSION}.clusterserviceversion.yaml"
     cp ${oldcsv} ${newcsv}
+
+    # Updating metadata/annotations.yaml
+    sed -ri "s/ (operators\.operatorframework\.io\.bundle\.channels\.v1): .*/ \1: alpha,stable,stable-${MAJOR_VERSION},stable-${MAJOR_MIN_VERSION}/g" bundle/metadata/annotations.yaml || error "Error updating channels in bundle/metadata/annotations.yaml"
 
     # Updating CSV file
     python ./scripts/update_csv.py ${newcsv}
