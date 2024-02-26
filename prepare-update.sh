@@ -139,10 +139,4 @@ sed -ri "s/^VERSION := .*/VERSION := v${NEW_VERSION}/g" Makefile
 echo
 cat << EOF
 Bundle has been updated locally!
-
-Commit your changes and open a PR.
-Once PR is approved and merged, you have to:
-
-- Tag repo using the published version, in example: ${NEW_VERSION}
-- Build and publish bundle using: make
 EOF

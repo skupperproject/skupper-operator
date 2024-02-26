@@ -9,4 +9,4 @@ spec:
   name: skupper-operator
   source: skupper-operator
   sourceNamespace: openshift-marketplace
-  startingCSV: skupper-operator.v1.5.3
+  startingCSV: skupper-operator.v1.6.0
