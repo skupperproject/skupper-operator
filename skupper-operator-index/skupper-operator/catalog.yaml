@@ -46,6 +46,8 @@ entries:
   replaces: skupper-operator.v1.5.2
 - name: skupper-operator.v1.5.4
   replaces: skupper-operator.v1.5.3
+- name: skupper-operator.v1.5.5
+  replaces: skupper-operator.v1.5.4
 name: alpha
 package: skupper-operator
 schema: olm.channel
@@ -740,9 +742,79 @@ properties:
       alm-examples: '[]'
       capabilities: Seamless Upgrades
       categories: Integration & Delivery, Networking, Streaming & Messaging
-      certified: "false"
+      certified: 'false'
       containerImage: quay.io/skupper/site-controller@sha256:c191dde506669256517696de26649592b806f2b5d6caf50e5fe9fb7ac19a81fb
-      createdAt: "2024-06-12T14:18:21Z"
+      createdAt: '2024-06-12T14:18:21Z'
+      description: Skupper Operator provides the ability to create a service network
+      operators.operatorframework.io/builder: operator-sdk-v1.4.0+git
+      operators.operatorframework.io/project_layout: go.kubebuilder.io/v3
+      repository: https://github.com/skupperproject/skupper-operator
+      support: Skupper Project
+    apiServiceDefinitions: {}
+    crdDescriptions: {}
+    description: "Skupper enables communication between services running in different\
+      \ network locations.\nIt allows geographically distributed services to connect\
+      \ as if they were all running in the same site.\n\nEach site is a namespace\
+      \ with a running Skupper instance.\n\nThe Skupper operator allows you create\
+      \ and manage sites.\nThe operator processes any ConfigMap named skupper-site\
+      \ and configures the site for the service network accordingly.\n\nTo get started,\
+      \ create the following ConfigMap in the desired namespace, the\nSkupper operator\
+      \ will create the Skupper instance and configure the site.\n\n      apiVersion:\
+      \ v1\n      kind: ConfigMap\n      metadata:\n        name: skupper-site\n\n\
+      The operator can be installed to a single namespace or at cluster level, watching\
+      \ for the skupper-site ConfigMap in all namespaces.\n"
+    displayName: Skupper
+    installModes:
+    - supported: true
+      type: OwnNamespace
+    - supported: false
+      type: SingleNamespace
+    - supported: false
+      type: MultiNamespace
+    - supported: true
+      type: AllNamespaces
+    keywords:
+    - skupper
+    - service
+    - mesh
+    - van
+    labels:
+      operatorframework.io/arch.amd64: supported
+      operatorframework.io/os.linux: supported
+    links:
+    - name: Skupper Operator
+      url: https://github.com/skupperproject/skupper-operator
+    maintainers:
+    - email: skupper@googlegroups.com
+      name: Skupper Community
+    maturity: alpha
+    provider:
+      name: Skupper Project
+      url: https://skupper.io
+relatedImages:
+- image: quay.io/skupper/site-controller@sha256:c191dde506669256517696de26649592b806f2b5d6caf50e5fe9fb7ac19a81fb
+  name: ''
+- image: quay.io/skupper/skupper-operator-bundle:v1.5.4
+  name: ''
+schema: olm.bundle
+---
+image: quay.io/skupper/skupper-operator-bundle:v1.5.5
+name: skupper-operator.v1.5.5
+package: skupper-operator
+properties:
+- type: olm.package
+  value:
+    packageName: skupper-operator
+    version: 1.5.5
+- type: olm.csv.metadata
+  value:
+    annotations:
+      alm-examples: '[]'
+      capabilities: Seamless Upgrades
+      categories: Integration & Delivery, Networking, Streaming & Messaging
+      certified: "false"
+      containerImage: quay.io/skupper/site-controller@sha256:8ef87f489f984a5fd8373aaaea87b147a216ef75b1f46e9d56713f82e3ac66ef
+      createdAt: "2024-07-16T15:56:14Z"
       description: Skupper Operator provides the ability to create a service network
       operators.operatorframework.io/builder: operator-sdk-v1.4.0+git
       operators.operatorframework.io/project_layout: go.kubebuilder.io/v3
@@ -797,8 +869,8 @@ properties:
       name: Skupper Project
       url: https://skupper.io
 relatedImages:
-- image: quay.io/skupper/site-controller@sha256:c191dde506669256517696de26649592b806f2b5d6caf50e5fe9fb7ac19a81fb
+- image: quay.io/skupper/site-controller@sha256:8ef87f489f984a5fd8373aaaea87b147a216ef75b1f46e9d56713f82e3ac66ef
   name: ""
-- image: quay.io/skupper/skupper-operator-bundle:v1.5.4
+- image: quay.io/skupper/skupper-operator-bundle:v1.5.5
   name: ""
 schema: olm.bundle
