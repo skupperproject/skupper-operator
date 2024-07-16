@@ -50,6 +50,8 @@ entries:
   replaces: skupper-operator.v1.6.0
 - name: skupper-operator.v1.7.1
   replaces: skupper-operator.v1.7.0
+- name: skupper-operator.v1.7.3
+  replaces: skupper-operator.v1.7.1
 name: alpha
 package: skupper-operator
 schema: olm.channel
@@ -920,9 +922,91 @@ properties:
       alm-examples: '[]'
       capabilities: Seamless Upgrades
       categories: Integration & Delivery, Networking, Streaming & Messaging
-      certified: "false"
+      certified: 'false'
       containerImage: quay.io/skupper/site-controller@sha256:4809db7263d77a95797061798e910f1bdbb5d5fe2db2bb3c743b97f5d0c7b3af
-      createdAt: "2024-06-12T14:36:59Z"
+      createdAt: '2024-06-12T14:36:59Z'
+      description: Skupper Operator provides the ability to create a service network
+      operators.operatorframework.io/builder: operator-sdk-v1.4.0+git
+      operators.operatorframework.io/project_layout: go.kubebuilder.io/v3
+      repository: https://github.com/skupperproject/skupper-operator
+      support: Skupper Project
+    apiServiceDefinitions: {}
+    crdDescriptions: {}
+    description: "Skupper enables communication between services running in different\
+      \ network locations.\nIt allows geographically distributed services to connect\
+      \ as if they were all running in the same site.\n\nEach site is a namespace\
+      \ with a running Skupper instance.\n\nThe Skupper operator allows you create\
+      \ and manage sites.\nThe operator processes any ConfigMap named skupper-site\
+      \ and configures the site for the service network accordingly.\n\nTo get started,\
+      \ create the following ConfigMap in the desired namespace, the\nSkupper operator\
+      \ will create the Skupper instance and configure the site.\n\n      apiVersion:\
+      \ v1\n      kind: ConfigMap\n      metadata:\n        name: skupper-site\n\n\
+      The operator can be installed to a single namespace or at cluster level, watching\
+      \ for the skupper-site ConfigMap in all namespaces.\n"
+    displayName: Skupper
+    installModes:
+    - supported: true
+      type: OwnNamespace
+    - supported: false
+      type: SingleNamespace
+    - supported: false
+      type: MultiNamespace
+    - supported: true
+      type: AllNamespaces
+    keywords:
+    - skupper
+    - service
+    - mesh
+    - van
+    labels:
+      operatorframework.io/arch.amd64: supported
+      operatorframework.io/os.linux: supported
+    links:
+    - name: Skupper Operator
+      url: https://github.com/skupperproject/skupper-operator
+    maintainers:
+    - email: skupper@googlegroups.com
+      name: Skupper Community
+    maturity: alpha
+    provider:
+      name: Skupper Project
+      url: https://skupper.io
+relatedImages:
+- image: quay.io/openshift/origin-oauth-proxy@sha256:a7dff785d821acc4b972d94964947713fade45f007dedb5deee17a2869bf5d24
+  name: ose-oauth-proxy
+- image: quay.io/prometheus/prometheus@sha256:d2ab0a27783fd4ad96a8853e2847b99a0be0043687b8a5d1ebfb2dd3fa4fd1b8
+  name: ose-prometheus
+- image: quay.io/skupper/config-sync@sha256:a884b26a32179af5a2bfa85118bf873852eec6e2930e92da778b57506c0a0880
+  name: skupper-config-sync
+- image: quay.io/skupper/flow-collector@sha256:bf646b0cb75e1c29bbe0261aa9943e06d33118f5e6a5ccb7503c60c974167692
+  name: skupper-flow-collector
+- image: quay.io/skupper/service-controller@sha256:624e88e695297df28e485db7e802945ad1978ac6b0c9e9edca8b5e6013af8991
+  name: skupper-service-controller
+- image: quay.io/skupper/site-controller@sha256:4809db7263d77a95797061798e910f1bdbb5d5fe2db2bb3c743b97f5d0c7b3af
+  name: skupper-site-controller
+- image: quay.io/skupper/skupper-operator-bundle:v1.7.1
+  name: ''
+- image: quay.io/skupper/skupper-router@sha256:5eb258a0927e7706e7c035f1def2eb5211c8c33dd371fafa7210517fd894f68b
+  name: skupper-router
+schema: olm.bundle
+---
+image: quay.io/skupper/skupper-operator-bundle:v1.7.3
+name: skupper-operator.v1.7.3
+package: skupper-operator
+properties:
+- type: olm.package
+  value:
+    packageName: skupper-operator
+    version: 1.7.3
+- type: olm.csv.metadata
+  value:
+    annotations:
+      alm-examples: '[]'
+      capabilities: Seamless Upgrades
+      categories: Integration & Delivery, Networking, Streaming & Messaging
+      certified: "false"
+      containerImage: quay.io/skupper/site-controller@sha256:2a2db4b28afdfe20f788d6e47162fef7d9e16a63ef0de163f8e50d23f1797185
+      createdAt: "2024-07-16T16:00:09Z"
       description: Skupper Operator provides the ability to create a service network
       operators.operatorframework.io/builder: operator-sdk-v1.4.0+git
       operators.operatorframework.io/project_layout: go.kubebuilder.io/v3
@@ -981,16 +1065,16 @@ relatedImages:
   name: ose-oauth-proxy
 - image: quay.io/prometheus/prometheus@sha256:d2ab0a27783fd4ad96a8853e2847b99a0be0043687b8a5d1ebfb2dd3fa4fd1b8
   name: ose-prometheus
-- image: quay.io/skupper/config-sync@sha256:a884b26a32179af5a2bfa85118bf873852eec6e2930e92da778b57506c0a0880
+- image: quay.io/skupper/config-sync@sha256:8fdc242127e6c1e60649d84f82917f82ea6bedd90e7f3cf5a5d8be70080c8679
   name: skupper-config-sync
-- image: quay.io/skupper/flow-collector@sha256:bf646b0cb75e1c29bbe0261aa9943e06d33118f5e6a5ccb7503c60c974167692
+- image: quay.io/skupper/flow-collector@sha256:c8745a11e707e5a6dd44d048e28111e206b4be9c9a3d872788693b3bb584b366
   name: skupper-flow-collector
-- image: quay.io/skupper/service-controller@sha256:624e88e695297df28e485db7e802945ad1978ac6b0c9e9edca8b5e6013af8991
+- image: quay.io/skupper/service-controller@sha256:6c8dbd525099a6a48525a76c4674ec9b4ced6519ce8db3d141308b5cf7f84438
   name: skupper-service-controller
-- image: quay.io/skupper/site-controller@sha256:4809db7263d77a95797061798e910f1bdbb5d5fe2db2bb3c743b97f5d0c7b3af
+- image: quay.io/skupper/site-controller@sha256:2a2db4b28afdfe20f788d6e47162fef7d9e16a63ef0de163f8e50d23f1797185
   name: skupper-site-controller
-- image: quay.io/skupper/skupper-operator-bundle:v1.7.1
+- image: quay.io/skupper/skupper-operator-bundle:v1.7.3
   name: ""
-- image: quay.io/skupper/skupper-router@sha256:5eb258a0927e7706e7c035f1def2eb5211c8c33dd371fafa7210517fd894f68b
+- image: quay.io/skupper/skupper-router@sha256:bf65368a8b27d8be6c09909769425f7f1281606a15b6a7bd3a7d6f6872473adc
   name: skupper-router
 schema: olm.bundle
