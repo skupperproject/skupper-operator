@@ -8,6 +8,8 @@ from datetime import datetime
 newversion=os.getenv("NEW_VERSION")
 curversion=os.getenv("CUR_VERSION")
 replacesversion=os.getenv("REPLACES_VERSION")
+newxy=".".join(newversion.split(".")[:2])
+oldxy=".".join(replacesversion.split(".")[:2])
 routersha=os.getenv("SKUPPER_ROUTER_SHA")
 sitecontrollersha=os.getenv("SITE_CONTROLLER_SHA")
 servicecontrollersha=os.getenv("SERVICE_CONTROLLER_SHA")
@@ -36,6 +38,12 @@ csv['metadata']['name'] = csvname
 # updating bundle image version
 csv['metadata']['annotations']['createdAt'] = datetime.utcnow().strftime('%Y-%m-%dT%H:%M:%SZ')
 csv['metadata']['annotations']['containerImage'] = sitecontrollersha
+try:
+    del(csv['metadata']['annotations']['olm.skipRange'])
+except:
+    pass
+if newxy != oldxy:
+    csv['metadata']['annotations']['olm.skipRange'] = ">%s <%s" %(replacesversion, newversion)
 
 # spec version
 csv['spec']['version'] = newversion
