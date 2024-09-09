@@ -11,5 +11,5 @@ LABEL operators.operatorframework.io.metrics.builder=operator-sdk-v1.4.0+git
 LABEL operators.operatorframework.io.metrics.project_layout=go.kubebuilder.io/v3
 
 # Copy files to locations specified by labels.
-COPY bundle/manifests/1.8.0 /manifests/
+COPY bundle/manifests/1.8.1 /manifests/
 COPY bundle/metadata /metadata/
