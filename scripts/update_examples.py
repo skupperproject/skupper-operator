@@ -30,10 +30,8 @@ for csf in csfiles:
 # updating subscriptions
 #
 subfiles = [
-    'examples/k8s/20-sub-cluster-wide.yaml',
-    'examples/k8s/20-sub.yaml',
-    'examples/ocp/20-sub-cluster-wide.yaml',
-    'examples/ocp/20-sub.yaml'
+    'examples/k8s/10-sub.yaml',
+    'examples/ocp/10-sub.yaml'
 ]
 for subf in subfiles:
     # loading subscription (yaml) file

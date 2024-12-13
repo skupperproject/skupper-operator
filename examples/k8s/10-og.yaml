@@ -1,8 +1,0 @@
-kind: OperatorGroup
-apiVersion: operators.coreos.com/v1
-metadata:
-  name: skupper-operator
-  namespace: my-namespace
-spec:
-  targetNamespaces:
-  - my-namespace
