@@ -1,7 +1,7 @@
 import os
 import sys
 import yaml
-from datetime import datetime
+from datetime import datetime, timezone
 
 
 # reading params from env vars
@@ -11,10 +11,9 @@ replacesversion=os.getenv("REPLACES_VERSION")
 newxy=".".join(newversion.split(".")[:2])
 oldxy=".".join(replacesversion.split(".")[:2])
 routersha=os.getenv("SKUPPER_ROUTER_SHA")
-sitecontrollersha=os.getenv("SITE_CONTROLLER_SHA")
-servicecontrollersha=os.getenv("SERVICE_CONTROLLER_SHA")
-configsyncsha=os.getenv("CONFIG_SYNC_SHA")
-flowcollectorsha=os.getenv("FLOW_COLLECTOR_SHA")
+controllersha=os.getenv("CONTROLLER_SHA")
+kubeadaptorsha=os.getenv("KUBE_ADAPTOR_SHA")
+networkobserversha=os.getenv("NETWORK_OBSERVER_SHA")
 prometheussha=os.getenv("PROMETHEUS_SHA")
 oauthproxysha=os.getenv("OAUTH_PROXY_SHA")
 skipversionslist=os.getenv("SKIP_VERSIONS")
@@ -36,8 +35,8 @@ csvname = csv['metadata']['name'].replace(curversion, newversion)
 csv['metadata']['name'] = csvname
 
 # updating bundle image version
-csv['metadata']['annotations']['createdAt'] = datetime.utcnow().strftime('%Y-%m-%dT%H:%M:%SZ')
-csv['metadata']['annotations']['containerImage'] = sitecontrollersha
+csv['metadata']['annotations']['createdAt'] = datetime.now(timezone.utc).strftime('%Y-%m-%dT%H:%M:%SZ')
+csv['metadata']['annotations']['containerImage'] = controllersha
 try:
     del(csv['metadata']['annotations']['olm.skipRange'])
 except:
@@ -48,21 +47,19 @@ if newxy != oldxy:
 # spec version
 csv['spec']['version'] = newversion
 
-# updating site-controller container image
-csv['spec']['install']['spec']['deployments'][0]['spec']['template']['spec']['containers'][0]['image'] = sitecontrollersha
+# updating controller container image
+csv['spec']['install']['spec']['deployments'][0]['spec']['template']['spec']['containers'][0]['image'] = controllersha
 
 # updating images for environment variables
 for envvar in csv['spec']['install']['spec']['deployments'][0]['spec']['template']['spec']['containers'][0]['env']:
     if envvar['name'] == "QDROUTERD_IMAGE":
         envvar['value'] = routersha
-    elif envvar['name'] == "SKUPPER_SERVICE_CONTROLLER_IMAGE":
-        envvar['value'] = servicecontrollersha
-    elif envvar['name'] == "SKUPPER_SITE_CONTROLLER_IMAGE":
-        envvar['value'] = sitecontrollersha
-    elif envvar['name'] == "SKUPPER_CONFIG_SYNC_IMAGE":
-        envvar['value'] = configsyncsha
-    elif envvar['name'] == "SKUPPER_FLOW_COLLECTOR_IMAGE":
-        envvar['value'] = flowcollectorsha
+    elif envvar['name'] == "SKUPPER_CONTROLLER_IMAGE":
+        envvar['value'] = controllersha
+    elif envvar['name'] == "SKUPPER_KUBE_ADAPTOR_IMAGE":
+        envvar['value'] = kubeadaptorsha
+    elif envvar['name'] == "SKUPPER_NETWORK_OBSERVER_IMAGE":
+        envvar['value'] = networkobserversha
     elif envvar['name'] == "PROMETHEUS_SERVER_IMAGE":
         envvar['value'] = prometheussha
     elif envvar['name'] == "OAUTH_PROXY_IMAGE":
@@ -70,20 +67,17 @@ for envvar in csv['spec']['install']['spec']['deployments'][0]['spec']['template
 
 # updating related images section
 csv['spec']['relatedImages'] = [{
-    'name': 'skupper-site-controller',
-    'image': sitecontrollersha,
+    'name': 'skupper-controller',
+    'image': controllersha,
 }, {
     'name': 'skupper-router',
     'image': routersha,
 }, {
-    'name': 'skupper-service-controller',
-    'image': servicecontrollersha,
+    'name': 'skupper-kube-adaptor',
+    'image': kubeadaptorsha,
 }, {
-    'name': 'skupper-config-sync',
-    'image': configsyncsha,
-}, {
-    'name': 'skupper-flow-collector',
-    'image': flowcollectorsha,
+    'name': 'skupper-network-observer',
+    'image': networkobserversha,
 }, {
     'name': 'ose-prometheus',
     'image': prometheussha,

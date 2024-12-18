@@ -59,10 +59,9 @@ done
 
 echo "Pulling images to determine their SHAs..."
 export SKUPPER_ROUTER_SHA=`getImageSHA quay.io/skupper/skupper-router:${SKUPPER_ROUTER_TAG}`
-export SITE_CONTROLLER_SHA=`getImageSHA quay.io/skupper/site-controller:${SKUPPER_CONTROL_TAG}`
-export SERVICE_CONTROLLER_SHA=`getImageSHA quay.io/skupper/service-controller:${SKUPPER_CONTROL_TAG}`
-export CONFIG_SYNC_SHA=`getImageSHA quay.io/skupper/config-sync:${SKUPPER_CONTROL_TAG}`
-export FLOW_COLLECTOR_SHA=`getImageSHA quay.io/skupper/flow-collector:${SKUPPER_CONTROL_TAG}`
+export CONTROLLER_SHA=`getImageSHA quay.io/skupper/controller:${SKUPPER_CONTROL_TAG}`
+export KUBE_ADAPTOR_SHA=`getImageSHA quay.io/skupper/kube-adaptor:${SKUPPER_CONTROL_TAG}`
+export NETWORK_OBSERVER_SHA=`getImageSHA quay.io/skupper/network-observer:${SKUPPER_CONTROL_TAG}`
 export PROMETHEUS_SHA=`getImageSHA quay.io/prometheus/prometheus:${PROMETHEUS_TAG}`
 export OAUTH_PROXY_SHA=`getImageSHA quay.io/openshift/origin-oauth-proxy:${OAUTH_PROXY_TAG}`
 
@@ -80,10 +79,9 @@ echo
 echo
 printf "%-25s: %s\n" "==== New images ===="
 printf "%-25s: %s\n" "Skupper Router SHA" "${SKUPPER_ROUTER_SHA}"
-printf "%-25s: %s\n" "Site Controller SHA" "${SITE_CONTROLLER_SHA}"
-printf "%-25s: %s\n" "Service Controller SHA" "${SERVICE_CONTROLLER_SHA}"
-printf "%-25s: %s\n" "Config Sync SHA" "${CONFIG_SYNC_SHA}"
-printf "%-25s: %s\n" "Flow Collector SHA" "${FLOW_COLLECTOR_SHA}"
+printf "%-25s: %s\n" "Controller SHA" "${CONTROLLER_SHA}"
+printf "%-25s: %s\n" "Kube Adaptor SHA" "${KUBE_ADAPTOR_SHA}"
+printf "%-25s: %s\n" "Network Observer SHA" "${NETWORK_OBSERVER_SHA}"
 printf "%-25s: %s\n" "Prometheus SHA" "${PROMETHEUS_SHA}"
 printf "%-25s: %s\n" "OAuth Proxy SHA" "${OAUTH_PROXY_SHA}"
 echo
@@ -102,20 +100,20 @@ MAJOR_VERSION=$(echo "${MAJOR_MIN_VERSION}" | sed -re 's/(.*)\.[0-9]+/\1/g')
 # Create a new CSV
 function createAndPrepareCSV() {
     # Creating directory and copying CSV
-    if ${INTERACTIVE} && [[ -d bundle/manifests/${NEW_VERSION} ]]; then
+    if ${INTERACTIVE} && [[ -d bundle/${NEW_VERSION} ]]; then
         echo
         read_var CONTINUE "Bundle for ${NEW_VERSION} is already defined, ovewrite?" true "no" "yes" "no"
         [[ "${CONTINUE,,}" = "no" ]] && exit 0
         echo
     fi
-    rm -rf bundle/manifests/${NEW_VERSION}
-    mkdir bundle/manifests/${NEW_VERSION} 
-    oldcsv="bundle/manifests/${CUR_VERSION}/skupper-operator.v${CUR_VERSION}.clusterserviceversion.yaml"
-    newcsv="bundle/manifests/${NEW_VERSION}/skupper-operator.v${NEW_VERSION}.clusterserviceversion.yaml"
-    cp ${oldcsv} ${newcsv}
+    rm -rf bundle/${NEW_VERSION}
+    cp -R bundle/${CUR_VERSION} bundle/${NEW_VERSION}
+    oldcsv="bundle/${NEW_VERSION}/manifests/skupper-operator.v${CUR_VERSION}.clusterserviceversion.yaml"
+    newcsv="bundle/${NEW_VERSION}/manifests/skupper-operator.v${NEW_VERSION}.clusterserviceversion.yaml"
+    mv ${oldcsv} ${newcsv}
 
     # Updating metadata/annotations.yaml
-    sed -ri "s/ (operators\.operatorframework\.io\.bundle\.channels\.v1): .*/ \1: alpha,stable,stable-${MAJOR_VERSION},stable-${MAJOR_MIN_VERSION}/g" bundle/metadata/annotations.yaml || error "Error updating channels in bundle/metadata/annotations.yaml"
+    sed -ri "s/ (operators\.operatorframework\.io\.bundle\.channels\.v1): .*/ \1: stable-${MAJOR_VERSION},stable-${MAJOR_MIN_VERSION}/g" bundle/${NEW_VERSION}/metadata/annotations.yaml || error "Error updating channels in bundle/metadata/annotations.yaml"
 
     # Updating CSV file
     python ./scripts/update_csv.py ${newcsv}
@@ -133,10 +131,6 @@ python ./scripts/update_examples.py
 # Updating README.md
 #
 sed -i "s/skupper-operator.v${CUR_VERSION}/skupper-operator.v${NEW_VERSION}/g" README.md
-#
-# Updating bundle.Dockerfile
-#
-sed -i "s#COPY bundle/manifests/${CUR_VERSION}#COPY bundle/manifests/${NEW_VERSION}#g" bundle.Dockerfile
 #
 # Updating Makefile
 #
