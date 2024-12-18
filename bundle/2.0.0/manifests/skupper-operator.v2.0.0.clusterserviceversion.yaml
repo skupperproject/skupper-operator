@@ -495,16 +495,16 @@ spec:
     name: Skupper Project
     url: https://skupper.io
   relatedImages:
-  - image: quay.io/skupper/controller:v2-latest
+  - image: quay.io/skupper/controller@sha256:c1b0070551c050fa9069e722690654f6a519b523c4b616c0ce2e5421d489cfac
     name: skupper-controller
-  - image: quay.io/skupper/skupper-router:3.1.0
+  - image: quay.io/skupper/skupper-router@sha256:416de2e5971058c67cbf2bbc0cdbad6ef234dbc7617d2a8ba528a3dd96747e39
     name: skupper-router
-  - image: quay.io/skupper/kube-adaptor:v2-latest
+  - image: quay.io/skupper/kube-adaptor@sha256:b83a428099a00d7e3163fdc09683fbf15209feb1bad49defbb86b9c2fa6f28bd
     name: skupper-kube-adaptor
-  - image: quay.io/skupper/network-observer:v2-latest
+  - image: quay.io/skupper/network-observer@sha256:d2ab0a27783fd4ad96a8853e2847b99a0be0043687b8a5d1ebfb2dd3fa4fd1b8
     name: skupper-network-observer    
-  - image: quay.io/prometheus/prometheus
+  - image: quay.io/prometheus/prometheus@sha256:d2ab0a27783fd4ad96a8853e2847b99a0be0043687b8a5d1ebfb2dd3fa4fd1b8
     name: ose-prometheus
-  - image: quay.io/openshift/origin-oauth-proxy
+  - image: quay.io/openshift/origin-oauth-proxy@sha256:a7dff785d821acc4b972d94964947713fade45f007dedb5deee17a2869bf5d24
     name: ose-oauth-proxy
   version: 2.0.0
