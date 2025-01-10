@@ -152,7 +152,7 @@ kubectl delete -f examples/skupper-site-interior.yaml
 kubectl delete -f examples/k8s/20-sub.yaml
 
 # Delete the CSV
-kubectl -n my-namespace delete csv skupper-operator.v1.8.2
+kubectl -n my-namespace delete csv skupper-operator.v1.8.3
 
 # Deleting the OperatorGroup
 kubectl delete -f examples/k8s/10-og.yaml
@@ -171,7 +171,7 @@ kubectl delete -f examples/skupper-site-interior.yaml
 kubectl delete -f examples/ocp/20-sub.yaml
 
 # Delete the CSV
-kubectl -n my-namespace delete csv skupper-operator.v1.8.2
+kubectl -n my-namespace delete csv skupper-operator.v1.8.3
 
 # Deleting the OperatorGroup
 kubectl delete -f examples/ocp/10-og.yaml
