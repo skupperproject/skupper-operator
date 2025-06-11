@@ -9,4 +9,4 @@ spec:
   name: skupper-operator
   source: skupper-operator
   sourceNamespace: olm
-  startingCSV: skupper-operator.v1.4.7
+  startingCSV: skupper-operator.v1.4.8
